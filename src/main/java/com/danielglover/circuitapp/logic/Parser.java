@@ -6,6 +6,14 @@ import com.danielglover.circuitapp.logic.nodes.*;
 import java.util.List;
 
 
+/*
+The parser class is a bit confusing to understand at first but here's a
+simplified way of how it works:
+
+
+
+*/
+
 public class Parser {
     private List<Token> tokens;
     private int position;
