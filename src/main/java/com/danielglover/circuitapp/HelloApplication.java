@@ -36,16 +36,20 @@ public class HelloApplication extends Application {
 //
 
 
-        Canvas canvas = new Canvas(1000, 1000);
+        Canvas canvas = new Canvas(1200, 1200);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
-        Gate gate = new Gate(GateType.NOT, 100.0, 130.0, "P");
-        Gate gate2 = new Gate(GateType.AND, 250.0, 220.0, "Q");
-        Gate gate3 = new Gate(GateType.OR, 400.0, 800.0, "R");
+        Gate gate = new Gate(GateType.INPUT, 100, 130, "P");
+        Gate gate2 = new Gate(GateType.AND, 250, 220, "Q");
+        Gate gate3 = new Gate(GateType.OR, 400, 800, "R");
+        Gate gate4 = new Gate(GateType.NOT, 600, 500, "S");
+        Gate gate5 = new Gate(GateType.OUTPUT, 800, 300, "T");
         gate.draw(gc);
         gate2.draw(gc);
         gate3.draw(gc);
+        gate4.draw(gc);
+        gate5.draw(gc);
 
 
         Scene scene = new Scene(pane, 1000, 1000);

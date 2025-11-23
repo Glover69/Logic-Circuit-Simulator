@@ -4,33 +4,27 @@ import com.danielglover.circuitapp.logic.enums.GateType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
-import java.time.Year;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
-
-import static java.lang.classfile.Opcode.NEW;
 
 public class Gate {
     private GateType type; // Type of gate using the GateType enum
-    private Double xCoordinate;
-    private Double yCoordinate; // Both x and y tell us where to draw the gate in the GUI
+    private int xCoordinate;
+    private int yCoordinate; // Both x and y tell us where to draw the gate in the GUI
     private Boolean currentValue; // The current output value of the gate
     private String gateName; // Name/Label for the gate
     private ArrayList<Gate> inputs;
 
     // Constants for drawing gates
-    private static Double GATE_WIDTH = 85.0;
-    private static Double GATE_HEIGHT = 65.0;
+    private static final int GATE_WIDTH = 85;
+    private static final int GATE_HEIGHT = 65;
 
 
 
-    public Gate(GateType type, Double xCoordinate, Double yCoordinate){
+    public Gate(GateType type, int xCoordinate, int yCoordinate){
         setType(type);
         setPosition(xCoordinate, yCoordinate);
         this.inputs = new ArrayList<>();
@@ -38,7 +32,7 @@ public class Gate {
         this.gateName = null;
     }
 
-    public Gate(GateType type, Double xCoordinate, Double yCoordinate, String gateName){
+    public Gate(GateType type, int xCoordinate, int yCoordinate, String gateName){
         this(type, xCoordinate, yCoordinate);
         this.gateName = gateName;
     }
@@ -49,6 +43,30 @@ public class Gate {
 
     public void setType(GateType type) {
         this.type = type;
+    }
+
+    public String getGateName() {
+        return gateName;
+    }
+
+    public void setGateName(String gateName) {
+        this.gateName = gateName;
+    }
+
+    public int getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public int getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public Boolean getCurrentValue() {
+        return currentValue;
+    }
+
+    public ArrayList<Gate> getInputs() {
+        return inputs;
     }
 
     // Helper methods
@@ -125,13 +143,13 @@ public class Gate {
         // Draw based on type of gate
         switch (type){
             case AND -> {
-                drawANDGate(context, fillColor);
+                drawANDGate(context);
             }
             case OR -> {
-                drawORGate(context, fillColor);
+                drawORGate(context);
             }
             case NOT -> {
-                drawNOTGate(context, fillColor);
+                drawNOTGate(context);
             }
             case INPUT -> {
                 drawInputGate(context, fillColor);
@@ -149,8 +167,8 @@ public class Gate {
     private void drawInputGate(GraphicsContext context, Color fillColor) {
         // Draw input as a circle
         int radius = 20;
-        Double x = xCoordinate;
-        Double y = yCoordinate;
+        int x = xCoordinate;
+        int y = yCoordinate;
 
         // Draw the circle now
         context.setFill(fillColor);
@@ -162,21 +180,21 @@ public class Gate {
         context.strokeOval(x - radius, y - radius, radius * 2, radius * 2);
 
         // Draw label
-        context.setFill(Color.BLACK);
+        context.setFill(Color.WHITE);
         context.setFont(Font.font("Consolas", FontWeight.BOLD, 12));
         context.fillText(gateName, x - 3, y + 5);
 
     }
 
     // Draw AND gate as D-Shape
-    private void drawANDGate(GraphicsContext context, Color fillColor) {
-        Double leftX = xCoordinate;
-        Double topY = yCoordinate;
+    private void drawANDGate(GraphicsContext context) {
+        int leftX = xCoordinate;
+        int topY = yCoordinate;
 
         double width = GATE_WIDTH;
         double height = GATE_HEIGHT;
 
-        context.setFill(fillColor);
+        context.setFill(Color.TRANSPARENT);
 
         // Drawing an open arc to form D-shape
         context.fillArc(leftX, topY, width, height, -90, 180, ArcType.CHORD);
@@ -192,14 +210,11 @@ public class Gate {
     }
 
 
-    private void drawORGate(GraphicsContext context, Color fillColor) {
-        Double leftX = xCoordinate;
-        Double topY = yCoordinate;
+    private void drawORGate(GraphicsContext context) {
+        int leftX = xCoordinate;
+        int topY = yCoordinate;
 
-        double width = GATE_WIDTH;
-        double height = GATE_HEIGHT;
-
-        context.setFill(fillColor);
+        context.setFill(Color.TRANSPARENT);
 
         // Start a single path for the whole OR gate shape (don't restart with moveTo repeatedly)
         context.beginPath();
@@ -232,13 +247,12 @@ public class Gate {
     }
 
     // Triangle with small circle in front for NOT gate
-    private void drawNOTGate(GraphicsContext context, Color fillColor) {
-        Double leftX = xCoordinate;
-        Double topY = yCoordinate;
+    private void drawNOTGate(GraphicsContext context) {
+        int leftX = xCoordinate;
+        int topY = yCoordinate;
 
         double width = GATE_WIDTH;
         double height = GATE_HEIGHT;
-        double circleRadius = 5.0;
 
         // Draw and fill triangle
         context.setFill(Color.TRANSPARENT);
@@ -259,6 +273,23 @@ public class Gate {
     }
 
     private void drawOutputGate(GraphicsContext context, Color fillColor) {
+        // Draw output as a circle
+        int radius = 25;
+
+        // Draw the circle now
+        context.setFill(fillColor);
+        context.fillOval(xCoordinate - radius, yCoordinate - radius, radius * 2, radius * 2);
+
+        // Draw outline on circle
+        context.setStroke(Color.BLACK);
+        context.setLineWidth(2);
+        context.strokeOval(xCoordinate - radius, yCoordinate - radius, radius * 2, radius * 2);
+
+        // Draw label
+        context.setFill(Color.WHITE);
+        context.setFont(Font.font("Consolas", FontWeight.BOLD, 12));
+        context.fillText(gateName, xCoordinate - 3, yCoordinate + 5);
+
     }
 
 
@@ -285,7 +316,7 @@ public class Gate {
         inputs.add(input);
     }
 
-    public void setPosition(Double x, Double y){
+    public void setPosition(int x, int y){
         this.xCoordinate = x;
         this.yCoordinate = y;
     }
@@ -297,12 +328,61 @@ public class Gate {
         }
 
         this.currentValue = boolValue;
+    }
+
+    public boolean containsPoint(Double x, Double y){
+
+        boolean finalll = false;
+
+        if (this.type == GateType.INPUT || this.type == GateType.OUTPUT){
+            double radius = 20;
+            double distance = Math.sqrt(Math.pow(x - this.xCoordinate, 2.0) + Math.pow((y - this.yCoordinate), 2.0));
+            finalll = distance <= radius;
+            return finalll;
+        }else {
+            finalll = x >= xCoordinate && x <= xCoordinate + GATE_WIDTH &&
+                    y >= yCoordinate && y <= yCoordinate + GATE_HEIGHT;
+        }
+
+        return finalll;
 
     }
 
-//    public boolean containsPoint(Double x, Double y){
-//        return null;
-//    }
+    public Point getOutputPoint(){
+        if (this.type == GateType.INPUT){
+            return new Point(this.xCoordinate + 20, this.yCoordinate);
+        }
+
+        if (this.type == GateType.NOT){
+            return new Point(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
+        }
+
+        if (this.type == GateType.AND || this.type == GateType.OR){
+            return new Point(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
+        }
+
+        return new Point(this.xCoordinate, this.yCoordinate);
+    }
+
+    public Point getInputPoint(int index) throws Exception{
+        if (this.type == GateType.INPUT){
+            throw new Exception("INPUT gates don't have input points");
+        }
+
+        if (this.type == GateType.NOT){
+            return new Point(this.xCoordinate, this.yCoordinate + GATE_HEIGHT / 2);
+        }
+
+        if (this.type == GateType.AND || this.type == GateType.OR){
+            if (index == 0){
+                return new Point(xCoordinate, yCoordinate + GATE_HEIGHT / 4);
+            }else if (index == 1){
+                return new Point(xCoordinate, yCoordinate + 3 * GATE_HEIGHT / 4);
+            }
+        }
+
+        throw new Exception("Invalid input index: " + index);
+    }
 
 
 }
