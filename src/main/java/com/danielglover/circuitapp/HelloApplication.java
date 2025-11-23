@@ -1,6 +1,8 @@
 package com.danielglover.circuitapp;
 
+import com.danielglover.circuitapp.logic.circuit.Circuit;
 import com.danielglover.circuitapp.logic.circuit.Gate;
+import com.danielglover.circuitapp.logic.circuit.Wire;
 import com.danielglover.circuitapp.logic.enums.GateType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,48 +19,59 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Pane pane = new Pane();
-
-        // Create a circle with the specified center coordinates and radius
-//        double centerX = 100.0;
-//        double centerY = 100.0;
-//        double radius = 50.0;
-//        Circle circle = new Circle(centerX, centerY, radius, Color.TRANSPARENT);
-//        circle.setCenterX(centerX);
-//        circle.setCenterY(centerY);
-//        circle.setRadius(radius);
-//
-//        // Configure the circle to be an outline (transparent fill, black stroke)
-//        circle.setStrokeWidth(2);
-//        circle.setStroke(Color.RED);
-//
-
 
         Canvas canvas = new Canvas(1200, 1200);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
-        Gate gate = new Gate(GateType.INPUT, 100, 130, "P");
-        Gate gate2 = new Gate(GateType.AND, 250, 220, "Q");
-        Gate gate3 = new Gate(GateType.OR, 400, 800, "R");
-        Gate gate4 = new Gate(GateType.NOT, 600, 500, "S");
-        Gate gate5 = new Gate(GateType.OUTPUT, 800, 300, "T");
-        gate.draw(gc);
-        gate2.draw(gc);
-        gate3.draw(gc);
-        gate4.draw(gc);
-        gate5.draw(gc);
+        Gate gate = new Gate(GateType.INPUT, 50, 135, "P");
+        Gate gate2 = new Gate(GateType.INPUT, 50, 165, "Q");
+        Gate andGate = new Gate(GateType.AND, 300, 120);
+
+        andGate.addInput(gate);
+        andGate.addInput(gate2);
+
+        Circuit circuit = new Circuit();
+        circuit.addGate(gate);
+        circuit.addGate(gate2);
+        circuit.addGate(andGate);
+        circuit.setOutputGate(andGate);
+
+        Wire wire1 = new Wire(gate, andGate);
+        Wire wire2 = new Wire(gate2, andGate);
+        circuit.addWire(wire1);
+        circuit.addWire(wire2);
+
+        gate.setValue(true);
+        gate2.setValue(true);
+
+        System.out.println("Circuit Output: " + circuit.evaluate());
+
+        // Print all start and end points for gates
+        System.out.println("Gate 1 Output Point: " + gate.getOutputPoint().x + ", " + gate.getOutputPoint().y);
+        System.out.println("Gate 2 Output Point: " + gate2.getOutputPoint().x + ", " + gate2.getOutputPoint().y);
+        System.out.println("AND Gate Input Points: ");
+        for (int i = 0; i < andGate.getInputs().size(); i++) {
+            System.out.println("Input " + i + ": " + andGate.getInputPoint(i).x + ", " + andGate.getInputPoint(i).y);
+        }
+
+        circuit.draw(gc);
+
+
+
+
+
+
+
 
 
         Scene scene = new Scene(pane, 1000, 1000);
         stage.setTitle("Logic Circuit Simulator");
         stage.setScene(scene);
         pane.getChildren().add(canvas);
-
-
-
 
 
         stage.show();

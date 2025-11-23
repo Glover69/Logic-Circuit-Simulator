@@ -166,7 +166,7 @@ public class Gate {
     // Methods for drawing all gates in their specific shapes
     private void drawInputGate(GraphicsContext context, Color fillColor) {
         // Draw input as a circle
-        int radius = 20;
+        int radius = 5;
         int x = xCoordinate;
         int y = yCoordinate;
 
@@ -176,13 +176,13 @@ public class Gate {
 
         // Draw outline on circle
         context.setStroke(Color.BLACK);
-        context.setLineWidth(2);
+        context.setLineWidth(1);
         context.strokeOval(x - radius, y - radius, radius * 2, radius * 2);
 
         // Draw label
         context.setFill(Color.WHITE);
-        context.setFont(Font.font("Consolas", FontWeight.BOLD, 12));
-        context.fillText(gateName, x - 3, y + 5);
+        context.setFont(Font.font("Consolas", FontWeight.BOLD, 8));
+        context.fillText(gateName, x - 2, y + 3);
 
     }
 
@@ -370,14 +370,14 @@ public class Gate {
         }
 
         if (this.type == GateType.NOT){
-            return new Point(this.xCoordinate, this.yCoordinate + GATE_HEIGHT / 2);
+            return new Point(this.xCoordinate + 85, this.yCoordinate + 25);
         }
 
         if (this.type == GateType.AND || this.type == GateType.OR){
             if (index == 0){
-                return new Point(xCoordinate, yCoordinate + GATE_HEIGHT / 4);
+                return new Point(xCoordinate + 38, yCoordinate + 17);
             }else if (index == 1){
-                return new Point(xCoordinate, yCoordinate + 3 * GATE_HEIGHT / 4);
+                return new Point(xCoordinate + 38, yCoordinate + 47);
             }
         }
 
