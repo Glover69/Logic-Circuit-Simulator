@@ -3,6 +3,10 @@ package com.danielglover.circuitapp.logic.circuit;
 import com.danielglover.circuitapp.logic.enums.GateType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -26,9 +30,11 @@ public class Gate {
 
     public Gate(GateType type, Double xCoordinate, Double yCoordinate){
         setType(type);
-        setPosition(xCoordinate, yCoordinate);
+//        setPosition(xCoordinate, yCoordinate);
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
         this.inputs = new ArrayList<>();
-        this.currentValue = null;
+        this.currentValue = true;
         this.gateName = null;
     }
 
@@ -110,7 +116,7 @@ public class Gate {
 
         if (this.currentValue){
             fillColor = Color.GREEN;
-        }else if (this.currentValue = false){
+        }else if (!this.currentValue){
             fillColor = Color.RED;
         }else{
             fillColor = Color.WHITE;
@@ -141,15 +147,34 @@ public class Gate {
 
     // Methods for drawing all gates in their specific shapes
     private void drawInputGate(GraphicsContext context, Color fillColor) {
+        // Draw input as a circle
+        int radius = 20;
+        Double x = xCoordinate;
+        Double y = yCoordinate;
+
+        // Draw the circle now
+        context.setFill(fillColor);
+        context.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+
+        // Draw outline on circle
+        context.setStroke(Color.BLACK);
+        context.setLineWidth(2);
+        context.strokeOval(x - radius, y - radius, radius * 2, radius * 2);
+
+        // Draw label
+        context.setFill(Color.BLACK);
+        context.setFont(Font.font("Consolas", FontWeight.BOLD, 12));
+        context.fillText(gateName, x - 3, y + 5);
+
+    }
+
+    private void drawANDGate(GraphicsContext context, Color fillColor) {
     }
 
     private void drawNOTGate(GraphicsContext context, Color fillColor) {
     }
 
     private void drawORGate(GraphicsContext context, Color fillColor) {
-    }
-
-    private void drawANDGate(GraphicsContext context, Color fillColor) {
     }
 
     private void drawOutputGate(GraphicsContext context, Color fillColor) {
@@ -193,9 +218,9 @@ public class Gate {
 
     }
 
-    public boolean containsPoint(Double x, Double y){
-        return null;
-    }
+//    public boolean containsPoint(Double x, Double y){
+//        return null;
+//    }
 
 
 }

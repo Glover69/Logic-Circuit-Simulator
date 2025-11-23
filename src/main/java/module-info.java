@@ -11,6 +11,8 @@ module com.danielglover.circuitapp {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
+    requires java.desktop;
+    requires annotations;
 
     opens com.danielglover.circuitapp to javafx.fxml;
     exports com.danielglover.circuitapp;
