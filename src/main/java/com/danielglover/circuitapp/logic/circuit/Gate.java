@@ -32,9 +32,7 @@ public class Gate {
 
     public Gate(GateType type, Double xCoordinate, Double yCoordinate){
         setType(type);
-//        setPosition(xCoordinate, yCoordinate);
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+        setPosition(xCoordinate, yCoordinate);
         this.inputs = new ArrayList<>();
         this.currentValue = true;
         this.gateName = null;
@@ -235,7 +233,31 @@ public class Gate {
         context.fillRect(22, 95, 5, 5); // Bottom rectangle part of D (Second connector)
     }
 
+    // Triangle with small circle in front for NOT gate
     private void drawNOTGate(GraphicsContext context, Color fillColor) {
+        Double leftX = xCoordinate;
+        Double topY = yCoordinate;
+
+        double width = GATE_WIDTH;
+        double height = GATE_HEIGHT;
+        double circleRadius = 5.0;
+
+        // Draw and fill triangle
+        context.setFill(Color.TRANSPARENT);
+        context.fillPolygon(
+                new double[]{leftX, leftX, leftX + width},
+                new double[]{topY, topY + height, topY + height / 2},
+                3
+        );
+        context.strokePolygon(new double[]{leftX, leftX, leftX + width},
+                new double[]{topY, topY + height, topY + height / 2},
+                3);
+
+        context.fillOval(104, 45, 15, 15); // Output circle
+        context.strokeOval(104, 45, 15, 15); // Outline for output circle
+
+        context.setFill(Color.BLACK);
+        context.fillRect(15, 50, 5, 5);
     }
 
     private void drawOutputGate(GraphicsContext context, Color fillColor) {
@@ -266,7 +288,8 @@ public class Gate {
     }
 
     public void setPosition(Double x, Double y){
-
+        this.xCoordinate = x;
+        this.yCoordinate = y;
     }
 
     // Sets the value for the INPUTs. This is how users toggle them
