@@ -3,7 +3,9 @@ package com.danielglover.circuitapp.logic.circuit;
 import com.danielglover.circuitapp.logic.enums.GateType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -23,8 +25,8 @@ public class Gate {
     private ArrayList<Gate> inputs;
 
     // Constants for drawing gates
-    private static int GATE_WIDTH = 80;
-    private static int GATE_HEIGHT = 60;
+    private static Double GATE_WIDTH = 85.0;
+    private static Double GATE_HEIGHT = 65.0;
 
 
 
@@ -168,13 +170,72 @@ public class Gate {
 
     }
 
+    // Draw AND gate as D-Shape
     private void drawANDGate(GraphicsContext context, Color fillColor) {
+        Double leftX = xCoordinate;
+        Double topY = yCoordinate;
+
+        double width = GATE_WIDTH;
+        double height = GATE_HEIGHT;
+
+        context.setFill(fillColor);
+
+        // Drawing an open arc to form D-shape
+        context.fillArc(leftX, topY, width, height, -90, 180, ArcType.CHORD);
+
+        // Draw outline for D
+        context.setStroke(Color.BLACK);
+        context.setLineWidth(2);
+        context.strokeArc(leftX, topY, width, height, -90, 180, ArcType.CHORD);
+
+        context.setFill(Color.BLACK);
+        context.fillRect(57, 25, 5, 5); // Top rectangle part of D (First connector)
+        context.fillRect(57, 75, 5, 5); // Bottom rectangle part of D (Second connector)
+
+        context.fillOval(104, 48, 10, 10); // Output circle
+    }
+
+
+    private void drawORGate(GraphicsContext context, Color fillColor) {
+        Double leftX = xCoordinate;
+        Double topY = yCoordinate;
+
+        double width = GATE_WIDTH;
+        double height = GATE_HEIGHT;
+
+        context.setFill(fillColor);
+
+        // Start a single path for the whole OR gate shape (don't restart with moveTo repeatedly)
+        context.beginPath();
+
+        // Start at the left middle
+        context.moveTo(leftX, topY + height / 2);
+
+        // Upper outer curve (uses your existing hard-coded control/anchor points)
+        context.quadraticCurveTo(80, 55, 130, 80);
+
+        // Lower outer curve back toward the left-bottom area
+        context.quadraticCurveTo(80, 110, leftX, topY + 90);
+
+        // Inner curve that returns to the starting point and completes the shape
+        context.quadraticCurveTo(leftX + width / 4, topY + height, leftX, topY + height / 2);
+
+        // Close the path to ensure the region is a single enclosed shape
+        context.closePath();
+
+        // Fill then stroke the closed path
+        context.fill();
+
+        context.setStroke(Color.BLACK);
+        context.setLineWidth(2);
+        context.stroke();
+
+        context.setFill(Color.BLACK);
+        context.fillRect(22, 65, 5, 5); // Top rectangle part of D (First connector)
+        context.fillRect(22, 95, 5, 5); // Bottom rectangle part of D (Second connector)
     }
 
     private void drawNOTGate(GraphicsContext context, Color fillColor) {
-    }
-
-    private void drawORGate(GraphicsContext context, Color fillColor) {
     }
 
     private void drawOutputGate(GraphicsContext context, Color fillColor) {

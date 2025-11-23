@@ -36,16 +36,16 @@ public class HelloApplication extends Application {
 //
 
 
-        Canvas canvas = new Canvas(300, 400);
+        Canvas canvas = new Canvas(1000, 1000);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
-        Gate gate = new Gate(GateType.INPUT, 20.0, 20.0, "P");
+        Gate gate = new Gate(GateType.OR, 20.0, 20.0, "P");
         gate.draw(gc);
 
 
         Scene scene = new Scene(pane, 1000, 1000);
-        stage.setTitle("Hello!");
+        stage.setTitle("Logic Circuit Simulator");
         stage.setScene(scene);
         pane.getChildren().add(canvas);
 
