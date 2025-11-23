@@ -40,8 +40,12 @@ public class HelloApplication extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
-        Gate gate = new Gate(GateType.NOT, 20.0, 20.0, "P");
+        Gate gate = new Gate(GateType.NOT, 100.0, 130.0, "P");
+        Gate gate2 = new Gate(GateType.AND, 250.0, 220.0, "Q");
+        Gate gate3 = new Gate(GateType.OR, 400.0, 800.0, "R");
         gate.draw(gc);
+        gate2.draw(gc);
+        gate3.draw(gc);
 
 
         Scene scene = new Scene(pane, 1000, 1000);

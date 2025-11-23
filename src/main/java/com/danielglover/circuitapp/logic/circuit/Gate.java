@@ -187,10 +187,8 @@ public class Gate {
         context.strokeArc(leftX, topY, width, height, -90, 180, ArcType.CHORD);
 
         context.setFill(Color.BLACK);
-        context.fillRect(57, 25, 5, 5); // Top rectangle part of D (First connector)
-        context.fillRect(57, 75, 5, 5); // Bottom rectangle part of D (Second connector)
-
-        context.fillOval(104, 48, 10, 10); // Output circle
+        context.fillRect(leftX + 38, topY + 15, 5, 5); // Top rectangle part of D (First connector)
+        context.fillRect(leftX + 38, topY + 45, 5, 5); // Bottom rectangle part of D (Second connector)
     }
 
 
@@ -207,16 +205,16 @@ public class Gate {
         context.beginPath();
 
         // Start at the left middle
-        context.moveTo(leftX, topY + height / 2);
+        context.moveTo(leftX, topY + 20); // (400, 450)
 
         // Upper outer curve (uses your existing hard-coded control/anchor points)
-        context.quadraticCurveTo(80, 55, 130, 80);
+        context.quadraticCurveTo(leftX + 60, topY + 25, leftX + 120, topY - 15);
 
         // Lower outer curve back toward the left-bottom area
-        context.quadraticCurveTo(80, 110, leftX, topY + 90);
+        context.quadraticCurveTo(leftX + 60, topY - 50, leftX, topY - 45);
 
         // Inner curve that returns to the starting point and completes the shape
-        context.quadraticCurveTo(leftX + width / 4, topY + height, leftX, topY + height / 2);
+        context.quadraticCurveTo(leftX + 20, topY - 10, leftX, topY + 20);
 
         // Close the path to ensure the region is a single enclosed shape
         context.closePath();
@@ -229,8 +227,8 @@ public class Gate {
         context.stroke();
 
         context.setFill(Color.BLACK);
-        context.fillRect(22, 65, 5, 5); // Top rectangle part of D (First connector)
-        context.fillRect(22, 95, 5, 5); // Bottom rectangle part of D (Second connector)
+        context.fillRect(leftX + 5, topY - 25, 5, 5); // Top rectangle part of D (First connector)
+        context.fillRect(leftX + 5, topY - 5, 5, 5); // Bottom rectangle part of D (Second connector)
     }
 
     // Triangle with small circle in front for NOT gate
@@ -253,11 +251,11 @@ public class Gate {
                 new double[]{topY, topY + height, topY + height / 2},
                 3);
 
-        context.fillOval(104, 45, 15, 15); // Output circle
-        context.strokeOval(104, 45, 15, 15); // Outline for output circle
+        context.fillOval(leftX + 85, topY + 25, 15, 15); // Output circle
+        context.strokeOval(leftX + 85, topY + 25, 15, 15); // Outline for output circle
 
         context.setFill(Color.BLACK);
-        context.fillRect(15, 50, 5, 5);
+        context.fillRect(leftX - 5, topY + 30, 5, 5);
     }
 
     private void drawOutputGate(GraphicsContext context, Color fillColor) {
