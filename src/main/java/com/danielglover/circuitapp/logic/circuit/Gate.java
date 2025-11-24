@@ -28,7 +28,7 @@ public class Gate {
         setType(type);
         setPosition(xCoordinate, yCoordinate);
         this.inputs = new ArrayList<>();
-        this.currentValue = true;
+        this.currentValue = false;
         this.gateName = null;
     }
 
@@ -180,9 +180,9 @@ public class Gate {
         context.strokeOval(x - radius, y - radius, radius * 2, radius * 2);
 
         // Draw label
-        context.setFill(Color.WHITE);
+        context.setFill(Color.BLACK);
         context.setFont(Font.font("Consolas", FontWeight.BOLD, 8));
-        context.fillText(gateName, x - 2, y + 3);
+        context.fillText(gateName, x + 10, y + 3);
 
     }
 
