@@ -33,6 +33,12 @@ public class Wire {
         Point iPoint = to.getInputPoint(i);
         this.toPointX = iPoint.x;
         this.toPointY = iPoint.y;
+
+        // In Wire constructor or createWires()
+        System.out.println("Creating wire from " + from.getType() +
+                " at (" + fromPointX + "," + fromPointY + ")" +
+                " to " + to.getType() +
+                " at (" + toPointX + "," + toPointY + ")");
     }
 
     public Wire(Gate from, Gate to, int fromPointX, int fromPointY, int toPointX, int toPointY){

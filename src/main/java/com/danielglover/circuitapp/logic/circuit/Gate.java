@@ -123,6 +123,16 @@ public class Gate {
             return currentValue;
         }
 
+
+        if (this.type == GateType.OUTPUT){
+            if (this.currentValue == null){
+                throw new Exception("OUTPUT gate " + this.gateName + " has no value set");
+            }
+
+            this.currentValue = inputs.getFirst().evaluate();
+            return this.currentValue;
+        }
+
         // Error when type is unknows
         throw new Exception("Unknown gate type: " + type);
     }
@@ -357,14 +367,18 @@ public class Gate {
             return new Point(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
         }
 
-        if (this.type == GateType.AND || this.type == GateType.OR){
+        if (this.type == GateType.AND){
             return new Point(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
+        }
+
+        if (this.type == GateType.OR){
+            return new Point(this.xCoordinate + 119, this.yCoordinate - 14);
         }
 
         return new Point(this.xCoordinate, this.yCoordinate);
     }
 
-    public Point getInputPoint(int index) throws Exception{
+    public Point getInputPoint(int index) throws Exception {
         if (this.type == GateType.INPUT){
             throw new Exception("INPUT gates don't have input points");
         }
@@ -373,12 +387,25 @@ public class Gate {
             return new Point(this.xCoordinate + 85, this.yCoordinate + 25);
         }
 
-        if (this.type == GateType.AND || this.type == GateType.OR){
+        if (this.type == GateType.AND){
             if (index == 0){
                 return new Point(xCoordinate + 38, yCoordinate + 17);
             }else if (index == 1){
                 return new Point(xCoordinate + 38, yCoordinate + 47);
             }
+        }
+
+        if (this.type == GateType.OR){
+            if (index == 0){
+                return new Point(xCoordinate + 5, yCoordinate - 23);
+            }else if (index == 1){
+                return new Point(xCoordinate + 5, yCoordinate - 3);
+            }
+        }
+
+        if (this.type == GateType.OUTPUT) {
+            // center-left of the circle
+            return new Point(xCoordinate - 25, yCoordinate);
         }
 
         throw new Exception("Invalid input index: " + index);

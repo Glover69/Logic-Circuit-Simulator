@@ -1,9 +1,13 @@
 package com.danielglover.circuitapp;
 
+import com.danielglover.circuitapp.logic.Parser;
+import com.danielglover.circuitapp.logic.Tokenizer;
 import com.danielglover.circuitapp.logic.circuit.Circuit;
+import com.danielglover.circuitapp.logic.circuit.CircuitBuilder;
 import com.danielglover.circuitapp.logic.circuit.Gate;
 import com.danielglover.circuitapp.logic.circuit.Wire;
 import com.danielglover.circuitapp.logic.enums.GateType;
+import com.danielglover.circuitapp.logic.nodes.ExprNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -35,46 +39,46 @@ public class HelloApplication extends Application {
 
         stage.show();
 
-        Gate gate = new Gate(GateType.INPUT, 50, 135, "P");
-        Gate gate2 = new Gate(GateType.INPUT, 50, 165, "Q");
-        Gate andGate = new Gate(GateType.AND, 150, 120);
 
-        andGate.addInput(gate);
-        andGate.addInput(gate2);
+        String expression = "(A && B) || C";
+        Parser parser = new Parser();
+        Tokenizer tokenizer = new Tokenizer();
+        ExprNode tree = parser.parse(tokenizer.tokenize(expression));
 
-        Circuit circuit = new Circuit();
-        circuit.addGate(gate);
-        circuit.addGate(gate2);
-        circuit.addGate(andGate);
-        circuit.setOutputGate(andGate);
+        CircuitBuilder builder = new CircuitBuilder();
+        Circuit circuit = builder.buildCircuit(tree);
 
-        Wire wire1 = new Wire(gate, andGate);
-        Wire wire2 = new Wire(gate2, andGate);
-        circuit.addWire(wire1);
-        circuit.addWire(wire2);
 
-        gate.setValue(true);
-        gate2.setValue(true);
+        System.out.println(circuit.getGates().size());
+        System.out.println(circuit.getWires().size());
 
-        System.out.println("Circuit Output: " + circuit.evaluate());
+        Gate gateA = circuit.getInputGates().get("A");
+        Gate gateB = circuit.getInputGates().get("B");
+        Gate gateC = circuit.getInputGates().get("C");
 
-        // Print all start and end points for gates
-        System.out.println("Gate 1 Output Point: " + gate.getOutputPoint().x + ", " + gate.getOutputPoint().y);
-        System.out.println("Gate 2 Output Point: " + gate2.getOutputPoint().x + ", " + gate2.getOutputPoint().y);
-        System.out.println("AND Gate Input Points: ");
-        for (int i = 0; i < andGate.getInputs().size(); i++) {
-            System.out.println("Input " + i + ": " + andGate.getInputPoint(i).x + ", " + andGate.getInputPoint(i).y);
+         System.out.println(gateA.getxCoordinate());
+         System.out.println(gateB.getxCoordinate());
+         System.out.println(gateC.getxCoordinate());
+
+        circuit.setInputValue("A", true);
+        circuit.setInputValue("B", false);
+        circuit.setInputValue("C", true);
+
+        System.out.println(circuit.evaluate());
+
+        circuit.draw(gc);
+
+        System.out.println("Tree: " + tree.toString());
+        System.out.println("Variables: " + tree.getAllVariables());
+
+        System.out.println("Total gates: " + circuit.getGates().size());
+        for (Gate gate : circuit.getGates()) {
+            System.out.println("Gate: type=" + gate.getType() +
+                    ", pos=(" + gate.getxCoordinate() + "," + gate.getyCoordinate() + ")" +
+                    ", label=" + gate.getGateName());
         }
 
-        circuit.draw(gc);
-
-//        circuit.reset();
-        circuit.toggleInput("P");
-        circuit.toggleInput("Q");
-        circuit.evaluate();
-//        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        circuit.draw(gc);
-
+        System.out.println("\nTotal wires: " + circuit.getWires().size());
 
 
 

@@ -107,4 +107,16 @@ public class Circuit {
 
         return null;
     }
+
+    public List<Gate> getGates() {
+        return gates;
+    }
+
+    public List<Wire> getWires() {
+        return wires;
+    }
+
+    public Map<String, Gate> getInputGates() {
+        return inputGates;
+    }
 }
