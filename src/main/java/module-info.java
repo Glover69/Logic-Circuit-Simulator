@@ -16,4 +16,6 @@ module com.danielglover.circuitapp {
 
     opens com.danielglover.circuitapp to javafx.fxml;
     exports com.danielglover.circuitapp;
+    exports com.danielglover.circuitapp.ui;
+    opens com.danielglover.circuitapp.ui to javafx.fxml;
 }

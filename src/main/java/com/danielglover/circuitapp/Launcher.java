@@ -1,5 +1,6 @@
 package com.danielglover.circuitapp;
 
+import com.danielglover.circuitapp.ui.HelloApplication;
 import javafx.application.Application;
 
 public class Launcher {

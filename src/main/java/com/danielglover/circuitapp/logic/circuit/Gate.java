@@ -8,6 +8,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.awt.*;
+import javafx.geometry.Point2D;
+
 import java.util.ArrayList;
 
 public class Gate {
@@ -358,58 +360,60 @@ public class Gate {
 
     }
 
-    public Point getOutputPoint(){
+    public Point2D getOutputPoint(){
         if (this.type == GateType.INPUT){
-            return new Point(this.xCoordinate + 20, this.yCoordinate);
+            return new Point2D(this.xCoordinate + 20, this.yCoordinate);
         }
 
         if (this.type == GateType.NOT){
-            return new Point(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
+            return new Point2D(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
         }
 
         if (this.type == GateType.AND){
-            return new Point(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
+            return new Point2D(this.xCoordinate + GATE_WIDTH, this.yCoordinate + GATE_HEIGHT / 2);
         }
 
         if (this.type == GateType.OR){
-            return new Point(this.xCoordinate + 119, this.yCoordinate - 14);
+            return new Point2D(this.xCoordinate + 119, this.yCoordinate - 14);
         }
 
-        return new Point(this.xCoordinate, this.yCoordinate);
+        return new Point2D(this.xCoordinate, this.yCoordinate);
     }
 
-    public Point getInputPoint(int index) throws Exception {
+    public Point2D getInputPoint(int index) throws Exception {
         if (this.type == GateType.INPUT){
             throw new Exception("INPUT gates don't have input points");
         }
 
         if (this.type == GateType.NOT){
-            return new Point(this.xCoordinate + 85, this.yCoordinate + 25);
+            return new Point2D(this.xCoordinate -5, this.yCoordinate + 32);
         }
 
         if (this.type == GateType.AND){
             if (index == 0){
-                return new Point(xCoordinate + 38, yCoordinate + 17);
+                return new Point2D(xCoordinate + 38, yCoordinate + 17);
             }else if (index == 1){
-                return new Point(xCoordinate + 38, yCoordinate + 47);
+                return new Point2D(xCoordinate + 38, yCoordinate + 47);
             }
         }
 
         if (this.type == GateType.OR){
             if (index == 0){
-                return new Point(xCoordinate + 5, yCoordinate - 23);
+                return new Point2D(xCoordinate + 5, yCoordinate - 23);
             }else if (index == 1){
-                return new Point(xCoordinate + 5, yCoordinate - 3);
+                return new Point2D(xCoordinate + 5, yCoordinate - 3);
             }
         }
 
         if (this.type == GateType.OUTPUT) {
             // center-left of the circle
-            return new Point(xCoordinate - 25, yCoordinate);
+            return new Point2D(xCoordinate - 25, yCoordinate);
         }
 
         throw new Exception("Invalid input index: " + index);
     }
+
+
 
 
 }

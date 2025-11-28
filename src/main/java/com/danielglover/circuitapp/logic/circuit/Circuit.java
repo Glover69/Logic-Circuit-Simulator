@@ -4,10 +4,7 @@ import com.danielglover.circuitapp.logic.enums.GateType;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Circuit {
     private List<Gate> gates;
@@ -76,7 +73,7 @@ public class Circuit {
     public void reset() throws Exception {
         inputGates.forEach((key, value) -> {
             try {
-//                System.out.println("Resetting input gate: " + key);
+                System.out.println("Resetting input gate: " + key);
                 value.setValue(false);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -85,8 +82,8 @@ public class Circuit {
     }
 
     public void draw(GraphicsContext context){
-        context.setFill(Color.WHITE);
-        context.fillRect(0, 0, context.getCanvas().getWidth(), context.getCanvas().getHeight());
+//        context.setFill(Color.rgb(13, 19, 25));
+//        context.fillRect(0, 0, context.getCanvas().getWidth(), context.getCanvas().getHeight());
 
         for (Wire wire : wires){
             wire.draw(context);
@@ -118,5 +115,10 @@ public class Circuit {
 
     public Map<String, Gate> getInputGates() {
         return inputGates;
+    }
+
+    public Set<String> getAllVariables() {
+        System.out.println(inputGates.keySet());
+        return inputGates.keySet();  // Returns Set<String>
     }
 }
