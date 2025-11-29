@@ -1,8 +1,6 @@
 # 💡 Logic Circuit Simulator
 
 [![Java](https://img.shields.io/badge/Language-Java-007396?logo=openjdk&style=flat-square)](https://www.java.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub Issues](https://img.shields.io/github/issues/Glover69/Logic-Circuit-Simulator?style=flat-square)](https://github.com/Glover69/Logic-Circuit-Simulator/issues)
 
 ## Project Overview
 
