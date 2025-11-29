@@ -35,7 +35,7 @@ public class CircuitCanvas extends Canvas {
     // Redraws the circuit whenever the expression changes
     public void redraw(){
         // Clear canvas and draw
-        gc.setFill(Color.rgb(244, 244, 244));
+        gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         if (circuit != null){

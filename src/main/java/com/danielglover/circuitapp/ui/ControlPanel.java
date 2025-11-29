@@ -1,11 +1,12 @@
 package com.danielglover.circuitapp.ui;
 
 import com.danielglover.circuitapp.logic.circuit.Circuit;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -26,27 +27,57 @@ public class ControlPanel extends VBox {
         createUI();
     }
 
-    private void createUI() {
-        Label inputLabel = new Label("Inputs:");
-        inputLabel.setStyle("-fx-font-weight: bold");
+//    private void createUI() {
+//        Label inputLabel = new Label("Inputs:");
+//        inputLabel.setStyle("-fx-font-weight: bold");
+//
+//        HBox inputBox = new HBox(15);
+//        this.getChildren().addAll(inputLabel, inputBox);
+//
+//        // Output section
+//        Separator separator = new Separator();
+//
+//        HBox outputBox = new HBox(10);
+//        Label outputTitleLabel = new Label("Output:");
+//        outputTitleLabel.setStyle("-fx-font-weight: bold");
+//        outputLabel = new Label("--");
+//        outputLabel.setStyle("-fx-font-size: 18; -fx-text-fill: blue");
+//
+//        outputBox.getChildren().addAll(outputTitleLabel, outputLabel);
+//
+//        // Reset button
+//        Button resetButton = new Button("Reset All");
+//        resetButton.setOnAction(event -> {
+//            try {
+//                handleReset();
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//
+//        this.getChildren().addAll(separator, outputBox, resetButton);
+//    }
 
-        HBox inputBox = new HBox(15);
-        this.getChildren().addAll(inputLabel, inputBox);
+    private void createUI(){
+        VBox vbox = new VBox();
+        vbox.setStyle("-fx-min-width: 100%; -fx-alignment: center; -fx-padding: 0px 0px 20px 0px");
 
-        // Output section
-        Separator separator = new Separator();
+        VBox mainContainer = new VBox();
+        mainContainer.setStyle("-fx-spacing: 12px; -fx-max-width: 750px; -fx-min-height: 50px; -fx-background-radius: 12; -fx-border-radius: 12; -fx-background-color: white; -fx-alignment: center; -fx-padding: 16px 16px 22px 16px;");
 
-        HBox outputBox = new HBox(10);
-        Label outputTitleLabel = new Label("Output:");
-        outputTitleLabel.setStyle("-fx-font-weight: bold");
-        outputLabel = new Label("--");
-        outputLabel.setStyle("-fx-font-size: 18; -fx-text-fill: blue");
+        // Top bar containing Header and reset button
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        outputBox.getChildren().addAll(outputTitleLabel, outputLabel);
+        HBox topBar = new HBox();
+        topBar.setStyle("-fx-alignment: center;");
 
-        // Reset button
-        Button resetButton = new Button("Reset All");
-        resetButton.setOnAction(event -> {
+        Label title = new Label("Test Circuit");
+        title.setStyle("-fx-font-family: 'SF Pro Display'; -fx-font-size: 18px; -fx-font-weight: bold;");
+
+        Button resetButton = new Button("Reset");
+        resetButton.setStyle("-fx-background-color: #E5E7EB; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 18px; -fx-max-height: 40px; -fx-font-family: 'SF Pro Display'; -fx-text-fill: #374151;");
+        resetButton.setOnAction(actionEvent -> {
             try {
                 handleReset();
             } catch (Exception e) {
@@ -54,7 +85,15 @@ public class ControlPanel extends VBox {
             }
         });
 
-        this.getChildren().addAll(separator, outputBox, resetButton);
+        topBar.getChildren().addAll(title, spacer, resetButton);
+
+
+        mainContainer.getChildren().addAll(topBar);
+        vbox.getChildren().addAll(mainContainer);
+
+
+        this.getChildren().addAll(vbox);
+
     }
 
     public void setCircuit(Circuit circuit) {

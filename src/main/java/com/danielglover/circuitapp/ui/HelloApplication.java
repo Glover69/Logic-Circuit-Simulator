@@ -45,7 +45,7 @@ public class HelloApplication extends Application {
         BorderPane root = createMainLayout();
 
         // Create scene
-        Scene scene = new Scene(root, 1440, 1200, Color.rgb(244, 244, 244));
+        Scene scene = new Scene(root, 1200, 1100);
 
         stage.setTitle("Logic Circuit Simulator");
         stage.setScene(scene);
@@ -55,11 +55,14 @@ public class HelloApplication extends Application {
 
     public BorderPane createMainLayout(){
         BorderPane borderPane = new BorderPane();
+        borderPane.setStyle("-fx-background-color: #EBF1FF");
 
         VBox topPanel = createTopPanel();
         borderPane.setTop(topPanel);
 
-        canvas = new CircuitCanvas(1200, 800);
+
+        canvas = new CircuitCanvas(1200, 600);
+        canvas.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2); -fx-background-radius: 12; -fx-border-radius: 12;");
         borderPane.setCenter(canvas);
 
         ControlPanel controlPanel = new ControlPanel();
@@ -83,28 +86,61 @@ public class HelloApplication extends Application {
 
 
         Label labelTitle = new Label("Logic Circuit Simulator");
-        labelTitle.setStyle("-fx-text-alignment: center; -fx-font-size: 28px; -fx-font-family: 'SF Pro Display'; -fx-font-weight: bold;");
+        labelTitle.setStyle("-fx-text-alignment: center; -fx-text-fill: #1F2937; -fx-font-size: 32px; -fx-font-family: 'SF Pro Display'; -fx-font-weight: bold;");
 
         Label subLabel = new Label("Convert propositional logic expressions into interactive digital circuits");
-        subLabel.setStyle("-fx-text-alignment: center; -fx-font-size: 18px; -fx-font-family: 'Roboto Light'; -fx-font-weight: normal;");
+        subLabel.setStyle("-fx-text-alignment: center; -fx-text-fill: #4B5563; -fx-font-size: 18px; -fx-padding: 0px 0px 20px 0px; -fx-font-family: 'Roboto Light'; -fx-font-weight: normal;");
 
         titleBox.getChildren().addAll(imageView, labelTitle);
 
-        HBox hbox = new HBox();
-        hbox.setStyle("-fx-min-width: 100%; -fx-spacing: 12px; -fx-alignment: center; -fx-padding: 24px 4px 4px 4px;");
 
-        Label label = new Label("Expression: ");
-        label.setStyle("-fx-font-family: 'SF Pro Display'; -fx-font-weight: bold;");
+        HBox outer = new HBox();
+        outer.setStyle("-fx-spacing: 12px; -fx-max-width: 750px; -fx-background-radius: 12; -fx-border-radius: 12; -fx-background-color: white; -fx-alignment: center; -fx-padding: 16px 0px 22px 0px;");
+
+        VBox verticalDiv = new VBox();
+        verticalDiv.setStyle("-fx-spacing: 10px;");
+
+        VBox hintsDiv = new VBox();
+        hintsDiv.setStyle("-fx-background-color: #EFF6FF; -fx-border-color: transparent transparent transparent #3C82F6; -fx-border-width: 0 0 0 5px; -fx-padding: 15px 0px 15px 20px");
+
+        HBox firstHintWrapper = new HBox();
+        Label hintOneHeader = new Label("Supported operators: ");
+        hintOneHeader.setStyle("-fx-text-fill: #374151; -fx-font-size: 16px; -fx-font-family: 'SF Pro Display'; -fx-font-weight: bold");
+
+        Label hintOneAnswer = new Label("&& (For AND), || (For OR), and ! (For NOT)");
+        hintOneAnswer.setStyle("-fx-text-fill: #374151; -fx-font-size: 16px; -fx-font-family: 'SF Pro';");
+
+        firstHintWrapper.getChildren().addAll(hintOneHeader, hintOneAnswer);
+
+
+        // Second hint
+        HBox secondHintWrapper = new HBox();
+        Label hintTwoHeader = new Label("Example expressions: ");
+        hintTwoHeader.setStyle("-fx-text-fill: #374151; -fx-font-size: 16px; -fx-font-family: 'SF Pro Display'; -fx-font-weight: bold");
+
+        Label hintTwoAnswer = new Label("!(A && B) || C,  A || (B && C)");
+        hintTwoAnswer.setStyle("-fx-text-fill: #374151; -fx-font-size: 16px; -fx-font-family: 'SF Pro';");
+
+        secondHintWrapper.getChildren().addAll(hintTwoHeader, hintTwoAnswer);
+
+        HBox buttonAndInputDiv = new HBox();
+        buttonAndInputDiv.setStyle("-fx-spacing: 12px;");
+
+        HBox hbox = new HBox();
+        hbox.setStyle("-fx-min-width: 100%; -fx-spacing: 22px; -fx-alignment: center; -fx-padding: 12px 12px 12px 12px;");
+
+        Label label = new Label("Input Expression");
+        label.setStyle("-fx-font-family: 'SF Pro Display'; -fx-font-weight: bold; -fx-font-size: 16px;");
 
         // Text field
         expressionField = new TextField();
         expressionField.setPromptText("Enter expression (e.g., A && B || C)");
-        expressionField.setPrefWidth(400);
-        expressionField.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
+        expressionField.setPrefWidth(600);
+        expressionField.setStyle("-fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #D0D7E3; -fx-border-width: 1.5; -fx-padding: 10 14; -fx-font-size: 18px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);");
 
         // Button
         Button parseButton = new Button("Parse");
-        parseButton.setStyle("-fx-background-color: #6760D9; -fx-font-weight: bold; -fx-font-family: 'SF Pro Display'; -fx-text-fill: white;");
+        parseButton.setStyle("-fx-background-color: #6760D9; -fx-background-radius: 12; -fx-border-radius: 12; -fx-font-weight: bold; -fx-font-size: 18px; -fx-max-height: 40px; -fx-font-family: 'SF Pro Display'; -fx-text-fill: white;");
         parseButton.setOnAction(actionEvent -> {
             try {
                 handleParse();
@@ -114,8 +150,12 @@ public class HelloApplication extends Application {
         });
 
 
-        vbox.getChildren().addAll(titleBox, subLabel, hbox);
-        hbox.getChildren().addAll(label, expressionField, parseButton);
+        hintsDiv.getChildren().addAll(firstHintWrapper, secondHintWrapper);
+        outer.getChildren().addAll(verticalDiv);
+        verticalDiv.getChildren().addAll(label, buttonAndInputDiv, hintsDiv);
+        buttonAndInputDiv.getChildren().addAll(expressionField, parseButton);
+        vbox.getChildren().addAll(titleBox, subLabel, outer);
+
         return vbox;
     }
 

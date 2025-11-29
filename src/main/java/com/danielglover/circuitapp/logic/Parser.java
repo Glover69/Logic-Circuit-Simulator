@@ -7,9 +7,36 @@ import java.util.List;
 
 
 /*
+
 The parser class is a bit confusing to understand at first but here's a
 simplified way of how it works:
 
+The parser takes a flat list of tokens (e.g. Token(VAR,"A")) from the token class and builds a tree structure
+that represents the logical expression that the user inputs
+
+An example would be:
+Input: [Token(VAR,"A"), Token(AND,"&&"), Token(VAR,"B")]
+Output: A tree where AND is the root with A and B as children
+
+It works based on operator precedence, kinda like BODMAS in math. If you have an expression like 2 * 3 + 4,
+you would execute the multiplication before the addition, because it has a higher precedence
+
+So in logic, the operator precedence would be: OR < AND < NOT
+
+We use three methods to do this evaluation:
+The class has 3 methods;
+parseExpression() [Which handles OR],
+parseTerm() [Which handles AND],
+parseFactor() [Which handles NOT, parentheses and variables]
+
+So, the call is done from the main Parser class, which calls parseExpression(), which then calls parseTerm(), and then that
+calls parseFactor()
+
+Now for instance, when this chain call is done, and we get to the parseFactor(), and that identifies a variable, it brings that variable
+up to parseTerm(), which looks for AND's until there are no more, and then the result (A AND) goes back to the parseFactor() because
+a variable is expected after a gate. the result is brought up all the way to parseExpression as ANDNode(A, B)
+
+When the entire expression is consumed, then the parsed form of the expression is returned as a tree for building the circuit
 
 
 */

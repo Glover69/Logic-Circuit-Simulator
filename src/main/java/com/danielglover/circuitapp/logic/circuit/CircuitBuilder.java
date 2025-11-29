@@ -6,8 +6,8 @@ import com.danielglover.circuitapp.logic.nodes.*;
 import java.util.*;
 
 public class CircuitBuilder {
-    private static Double startXPosition = 100.0;
-    private static Double startYPosition = 170.0;
+    private static Double startXPosition = 80.0;
+    private static Double startYPosition = 50.0;
     private static Double layerSpacing = 200.0;
     private static Double gateSpacing = 150.0;
 
