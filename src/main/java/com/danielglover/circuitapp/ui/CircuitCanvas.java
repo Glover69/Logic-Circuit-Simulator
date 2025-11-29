@@ -3,6 +3,7 @@ package com.danielglover.circuitapp.ui;
 import com.danielglover.circuitapp.logic.circuit.Circuit;
 import com.danielglover.circuitapp.logic.circuit.Gate;
 import com.danielglover.circuitapp.logic.enums.GateType;
+import com.danielglover.circuitapp.logic.interfaces.CircuitOutputListener;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +13,7 @@ import javafx.scene.paint.Color;
 public class CircuitCanvas extends Canvas {
     private Circuit circuit;
     private GraphicsContext gc;
+    private CircuitOutputListener outputListener;
 
     public CircuitCanvas(double width, double height){
         super(width, height);
@@ -59,7 +61,15 @@ public class CircuitCanvas extends Canvas {
             circuit.toggleInput(gateName);
 
             redraw();
+
+            if (outputListener != null){
+                outputListener.onOutputChange();
+            }
         }
+    }
+
+    public void setOutputListener(CircuitOutputListener listener){
+        this.outputListener = listener;
     }
 
 }

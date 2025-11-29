@@ -13,6 +13,7 @@ module com.danielglover.circuitapp {
     requires javafx.graphics;
     requires java.desktop;
     requires annotations;
+    requires com.fasterxml.jackson.databind;
 
     opens com.danielglover.circuitapp to javafx.fxml;
     exports com.danielglover.circuitapp;

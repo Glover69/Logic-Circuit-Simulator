@@ -5,6 +5,7 @@ import com.danielglover.circuitapp.logic.Token;
 import com.danielglover.circuitapp.logic.Tokenizer;
 import com.danielglover.circuitapp.logic.circuit.Circuit;
 import com.danielglover.circuitapp.logic.circuit.CircuitBuilder;
+import com.danielglover.circuitapp.logic.interfaces.CircuitOutputListener;
 import com.danielglover.circuitapp.logic.nodes.ExprNode;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -61,11 +62,19 @@ public class HelloApplication extends Application {
         borderPane.setTop(topPanel);
 
 
-        canvas = new CircuitCanvas(1200, 600);
+        canvas = new CircuitCanvas(1200, 500);
+
         canvas.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2); -fx-background-radius: 12; -fx-border-radius: 12;");
         borderPane.setCenter(canvas);
 
-        ControlPanel controlPanel = new ControlPanel();
+        controlPanel = new ControlPanel();
+
+        canvas.setOutputListener(new CircuitOutputListener() {
+            @Override
+            public void onOutputChange(){
+                controlPanel.updateOutput();
+            }
+        });
         borderPane.setBottom(controlPanel);
 
         return borderPane;

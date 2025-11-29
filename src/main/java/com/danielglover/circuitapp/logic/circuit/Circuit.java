@@ -1,6 +1,10 @@
 package com.danielglover.circuitapp.logic.circuit;
 
+import com.danielglover.circuitapp.logic.CircuitVariable;
 import com.danielglover.circuitapp.logic.enums.GateType;
+import com.fasterxml.jackson.databind.ser.std.StdArraySerializers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -11,6 +15,7 @@ public class Circuit {
     private List<Wire> wires;
     private Map<String, Gate> inputGates;
     private Gate outputGate;
+    private final ObservableList<CircuitVariable> variables = FXCollections.observableArrayList();
 
     public Circuit() {
         this.gates = new ArrayList<>();
@@ -120,5 +125,18 @@ public class Circuit {
     public Set<String> getAllVariables() {
         System.out.println(inputGates.keySet());
         return inputGates.keySet();  // Returns Set<String>
+    }
+
+    public void refreshVariablesFromInputGates() {
+        variables.clear();
+        inputGates.keySet().forEach(name -> variables.add(new CircuitVariable(name)));
+    }
+
+    public ObservableList<CircuitVariable> getVariables() {
+        return variables;
+    }
+
+    public Boolean getOutputValue(){
+        return this.outputGate.getCurrentValue();
     }
 }
