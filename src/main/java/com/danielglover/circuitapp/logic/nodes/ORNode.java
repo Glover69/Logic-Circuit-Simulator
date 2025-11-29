@@ -21,45 +21,26 @@ public class ORNode extends ExprNode {
     }
 
     @Override
-    public String backToString() {
-        return "(" + this.left.backToString() + " || " + this.right.backToString() + ")";
+    public String toString() {
+        return "(" + this.left.toString() + " || " + this.right.toString() + ")";
     }
 
     @Override
     public Set<String> getAllVariables() {
-        Set<String> variables = new HashSet<>();
 
         // Get variables from left & right side
-        Set<String> leftVariables = this.left.getAllVariables();
-        Set<String> rightVariables = this.right.getAllVariables();
-
-        for (String l: leftVariables){
-            variables.add(l);
-        }
-
-        for (String r: rightVariables){
-            variables.add(r);
-        }
-
+        Set<String> leftVars = this.left.getAllVariables();
+        Set<String> variables = new HashSet<>(leftVars);
+        Set<String> rightVars = this.right.getAllVariables();
+        variables.addAll(rightVars);
         return variables;
     }
-
-
-    // Getters & setters
 
     public ExprNode getLeft() {
         return left;
     }
 
-    public void setLeft(ExprNode left) {
-        this.left = left;
-    }
-
     public ExprNode getRight() {
         return right;
-    }
-
-    public void setRight(ExprNode right) {
-        this.right = right;
     }
 }

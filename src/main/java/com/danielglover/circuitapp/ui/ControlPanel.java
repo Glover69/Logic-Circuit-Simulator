@@ -17,7 +17,6 @@ public class ControlPanel extends VBox {
     private Map<String, CheckBox> inputCheckBoxes;
     private Label outputLabel;
     private CircuitCanvas canvas;
-    private SingleVariableBar variablePanel;
     private HBox inputBox;
     private VBox outputContainer;
 
@@ -56,10 +55,20 @@ public class ControlPanel extends VBox {
         Button resetButton = new Button("Reset");
         resetButton.setStyle("-fx-background-color: #E5E7EB; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-weight: bold; -fx-font-size: 18px; -fx-max-height: 40px; -fx-font-family: 'SF Pro Display'; -fx-text-fill: #374151;");
         resetButton.setOnAction(actionEvent -> {
-            try {
-                handleReset();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            if (circuit != null) {
+                try {
+                    circuit.resetCircuit();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            // Refresh ino
+            updateFromCircuit();
+            updateOutput();
+
+            if (canvas != null) {
+                canvas.redraw();
             }
         });
 
@@ -72,7 +81,7 @@ public class ControlPanel extends VBox {
         outputContainer.setStyle("-fx-padding: 12px; -fx-background-radius: 12px; -fx-border-radius: 12px; -fx-border-color: #E5E7EB; -fx-border-width: 1px; -fx-min-height: 50px; -fx-alignment: center;");
 
 
-        topBar.getChildren().addAll(title, spacer, resetButton);
+        topBar.getChildren().addAll(title, spacer);
 
 
         mainContainer.getChildren().addAll(topBar, outputTitle, outputContainer, inputBox);

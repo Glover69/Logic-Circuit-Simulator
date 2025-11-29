@@ -8,58 +8,38 @@ public class ANDNode extends ExprNode {
     private ExprNode left;
     private ExprNode right;
 
-    public ANDNode(ExprNode left, ExprNode right){
+    public ANDNode(ExprNode left, ExprNode right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public Boolean evaluate(Map<String, Boolean> values) {
-        Boolean leftValue = this.left.evaluate(values);
-        Boolean rightValue = this.right.evaluate(values);
+        boolean leftValue = this.left.evaluate(values);
+        boolean rightValue = this.right.evaluate(values);
         return leftValue && rightValue;
     }
 
     @Override
-    public String backToString() {
-        return "(" + this.left.backToString() + " && " + this.right.backToString() + ")";
+    public String toString() {
+        return "(" + this.left.toString() + " && " + this.right.toString() + ")";
     }
 
     @Override
     public Set<String> getAllVariables() {
         Set<String> variables = new HashSet<>();
-
-        // Get variables from left & right side
-        Set<String> leftVariables = this.left.getAllVariables();
-        Set<String> rightVariables = this.right.getAllVariables();
-
-        for (String l: leftVariables){
-            variables.add(l);
-        }
-
-        for (String r: rightVariables){
-            variables.add(r);
-        }
-
+        Set<String> leftVars = this.left.getAllVariables();
+        variables.addAll(leftVars);
+        Set<String> rightVars = this.right.getAllVariables();
+        variables.addAll(rightVars);
         return variables;
     }
 
-
-    // Getters & setters
-
     public ExprNode getLeft() {
-        return left;
-    }
-
-    public void setLeft(ExprNode left) {
-        this.left = left;
+        return this.left;
     }
 
     public ExprNode getRight() {
-        return right;
-    }
-
-    public void setRight(ExprNode right) {
-        this.right = right;
+        return this.right;
     }
 }

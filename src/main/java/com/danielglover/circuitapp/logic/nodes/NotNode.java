@@ -7,7 +7,7 @@ public class NotNode extends ExprNode {
     private ExprNode child;
 
     public NotNode(ExprNode child){
-        this.child = child;
+        setChild(child);
     }
 
     @Override
@@ -19,17 +19,14 @@ public class NotNode extends ExprNode {
     }
 
     @Override
-    public String backToString() {
-        return "!" + this.child.backToString();
+    public String toString() {
+        return "!" + this.child.toString();
     }
 
     @Override
     public Set<String> getAllVariables() {
         return this.child.getAllVariables();
     }
-
-    // Getter & Setter
-
 
     public ExprNode getChild() {
         return child;

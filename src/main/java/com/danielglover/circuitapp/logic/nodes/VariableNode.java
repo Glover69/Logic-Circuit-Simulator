@@ -1,44 +1,37 @@
 package com.danielglover.circuitapp.logic.nodes;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
 
-public class VariableNode extends ExprNode{
-    private String variableName;
+public class VariableNode extends ExprNode {
 
-    public VariableNode(String variableName) {
-        setVariableName(variableName);
+    private String name;
+
+    public VariableNode(String name) {
+        this.name = name;
     }
 
     @Override
     public Boolean evaluate(Map<String, Boolean> values) {
-        if (!values.containsKey(variableName)) {
-            System.err.println("Variable " + variableName + " does not exist");
+        if (!values.containsKey(name)) {
+            throw new IllegalArgumentException("Variable " + this.name + " not found in values");
         }
-
-        return values.get(variableName);
+        return values.get(name);
     }
 
     @Override
-    public String backToString() {
-        return variableName;
+    public String toString() {
+        return name;
     }
 
     @Override
     public Set<String> getAllVariables() {
         Set<String> variables = new HashSet<>();
-        variables.add(variableName);
-
+        variables.add(name);
         return variables;
     }
-
-    // Getters and Setters
-    public String getVariableName() {
-        return variableName;
-    }
-
-    public void setVariableName(String variableName) {
-        this.variableName = variableName;
+    public String getName(){
+        return this.name;
     }
 }

@@ -7,7 +7,7 @@ import java.util.*;
 
 public class CircuitBuilder {
     private static Double startXPosition = 80.0;
-    private static Double startYPosition = 50.0;
+    private static Double startYPosition = 600.0;
     private static Double layerSpacing = 200.0;
     private static Double gateSpacing = 150.0;
 
@@ -51,7 +51,7 @@ public class CircuitBuilder {
         }
 
         if (node instanceof VariableNode varNode){
-            Gate inputGate = new Gate(GateType.INPUT, 0, 0, varNode.getVariableName());
+            Gate inputGate = new Gate(GateType.INPUT, 0, 0, varNode.getName());
             this.nodeToGate.put(node, inputGate);
 
         }else if (node instanceof NotNode notNode){
@@ -119,7 +119,7 @@ public class CircuitBuilder {
             String nodeType = node.getClass().getSimpleName();
             String nodeLabel = "";
             if (node instanceof VariableNode) {
-                nodeLabel = ((VariableNode) node).getVariableName();
+                nodeLabel = ((VariableNode) node).getName();
             }
             System.out.println(nodeType + " " + nodeLabel + " -> Layer: " + layer);
         }

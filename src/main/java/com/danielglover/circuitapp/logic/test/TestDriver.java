@@ -25,7 +25,7 @@ public class TestDriver {
         values.put("B", true);
         values.put("C", false);
 
-        System.out.println(result.backToString());
+        System.out.println(result.toString());
         System.out.println(result.evaluate(values));
 
 //        VariableNode nodeA = new VariableNode("A");

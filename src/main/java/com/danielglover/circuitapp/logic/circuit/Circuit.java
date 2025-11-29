@@ -127,16 +127,10 @@ public class Circuit {
         return inputGates.keySet();  // Returns Set<String>
     }
 
-    public void refreshVariablesFromInputGates() {
-        variables.clear();
-        inputGates.keySet().forEach(name -> variables.add(new CircuitVariable(name)));
+    public void resetCircuit() throws Exception {
+        for (String name : inputGates.keySet()) {
+            inputGates.get(name).setValue(false);
+        }
     }
 
-    public ObservableList<CircuitVariable> getVariables() {
-        return variables;
-    }
-
-    public Boolean getOutputValue(){
-        return this.outputGate.getCurrentValue();
-    }
 }
